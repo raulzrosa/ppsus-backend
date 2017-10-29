@@ -19,6 +19,9 @@ class Subjective {
     static belongsTo = [
             User
     ]
+
     static constraints = {
+        lostWeightKg scale: 2
+
     }
 }
