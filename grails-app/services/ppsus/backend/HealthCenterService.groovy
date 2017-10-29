@@ -28,15 +28,15 @@ class HealthCenterService {
             healthCenter.phone = data.phone
             healthCenter.validate()
             if(!healthCenter.hasErrors()) {
-                healthCenter = healthCenter.save(flush: true)
+                healthCenter.save(flush: true)
+                return  ['message': 'Health Center create successfully!']
             } else {
-                throw new Exception("Unable to save the Health Center!")
+                throw new Exception ('Unable to save the Health Center!')
             }
 
         }
-        return  [
-                'healthCenter': healthCenter,
-                'response': "Health Center created successfully!"
-        ]
+        else {
+            throw new Exception ('Health Center already exist!')
+        }
     }
 }

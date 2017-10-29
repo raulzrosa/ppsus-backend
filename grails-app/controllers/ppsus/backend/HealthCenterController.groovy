@@ -2,6 +2,7 @@ package ppsus.backend
 
 import grails.converters.JSON
 import org.grails.web.json.JSONObject
+import javax.servlet.http.HttpServletResponse
 
 class HealthCenterController {
 
@@ -19,29 +20,23 @@ class HealthCenterController {
     def create() {
         def messages = [], httpCode
         try {
-            //println(request)
-            def healthCenters = healthCenterService.create(request)
-            //println(healthCenters)
-            respond healthCenters as JSONObject
-            return
-        } catch (Exception ex){
-            messages += ex.getMessage()
-            //httpCode = ex.getHttpCode()
+            healthCenterService.create(request)
+            messages += ["message": "Health Center created successfully!"]
+        } catch (Exception ex) {
+            messages += ["message:": ex.message]
         }
-        render(status: "666", text: ["errors":  messages] as JSON, contentType: 'application/json')
+        render(status: httpCode, text: ["messages":  messages] as JSON, contentType: 'application/json')
     }
 
     def list() {
         def messages = [], httpCode
         try {
             def healthCenters = healthCenterService.list()
-            respond healthCenters as JSONObject//, [status: HttpServletResponse.SC_OK]
-            return
-        } catch (Exception ex){
-            messages += ex.getMessage()
-            //httpCode = ex.getHttpCode()
+            respond healthCenters as JSONObject
+        } catch (Exception ex) {
+            messages += ["message:": ex.message]
         }
-        render(status: "123", text: ["errors":  messages] as JSON, contentType: 'application/json')
+        render(status: httpCode, text: ["errors":  messages] as JSON, contentType: 'application/json')
     }
 
     def delete() {
